@@ -12,3 +12,15 @@ CREATE TABLE users(
 
 -- test user --
 INSERT INTO users(user_name, user_password, user_comfirmpassword) VALUES ('jacob', 'jacob1234', 'jacob21234');
+
+
+CREATE TABLE userData(
+    user_id PRIMARY KEY NOT NULL,
+    full_name VARCHAR(255) NOT NULL,
+    imagePath VARCHAR(255) NOT NULL,
+    gender VARCHAR(255) NOT NULL,
+    primary_skill VARCHAR(255) NOT NULL,
+    country VARCHAR(255) NOT NULL,
+    socials TEXT[] NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+)

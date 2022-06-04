@@ -18,6 +18,11 @@ module.exports = function(req, res, next) {
     } else if (!validUsername(username)) {
       return res.json("Invalid Email");
     }
+  } else if (req.path === '/onboard'){
+    if(![user_id,full_name,gender,primary_skill,country,socials].every(Boolean)){
+      return res.json("Missing Input fields");
+    }//checks if 
+    else if(typeof(full_name) != 'string'||typeof(gender) != 'string'||typeof(primary_skill) != 'string'||typeof(country) != 'string') return res.json("bad request please retry");
   }
 
   next();
