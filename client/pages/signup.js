@@ -2,8 +2,44 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useSession, signIn, } from "next-auth/react";
 import styles from "../styles/login.module.css"
+import { useState } from 'react';
+
 
 const Signup = () => {
+
+  const [inputs, setInputs] = useState({
+    username: "",
+    password: "",
+    comfirmpassword:"", 
+  });
+  const {username, password, comfirmpassword} = inputs;
+
+  const onChange = (e) =>{
+    setInputs({...inputs, [e.target.name]
+    : e.target.value })
+    
+  }
+
+  const onSubmitForm = async(e) => {
+    e.preventDefault()
+
+    try {
+
+      const body = {username, password, comfirmpassword}
+      const response = await fetch("http://localhost:1338/auth/signup", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"}
+        ,
+        body: JSON.stringify(body)
+      });
+
+      const parseRes = await response.json()
+
+      console.log(parseRes)
+    } catch (error) {
+      console.error(error.message)
+    }
+  }
   const { data: session } = useSession()
   const router = useRouter();
 
@@ -28,15 +64,30 @@ const Signup = () => {
         }
       }>Signup with github or google</button>
       </div>
-      <form className={styles.formContainer}>
+      <form className={styles.formContainer} onSubmit={onSubmitForm}>
         <div>
-          <input type="text" placeholder="username" className={styles.input}/>
+          <input type="text" 
+          placeholder="username"
+          name="username"
+          value={username}
+          onChange={e => onChange(e)}
+           className={styles.input}/>
         </div>
         <div>
-          <input type="password" placeholder="password" className={styles.input}/>
+          <input type="password" 
+          name="password"
+          placeholder="password" 
+          onChange={e => onChange(e)}
+          value={password}
+          className={styles.input}/>
         </div>
         <div>
-          <input type="password" placeholder="comfirmpassword" className={styles.input}/>
+          <input type="password"
+          name="comfirmpassword"
+           placeholder="comfirmpassword"
+           onChange={e => onChange(e)}
+           value={comfirmpassword}
+           className={styles.input}/>
         </div>
         <div className={styles.butt}>
         <button className={styles.loginbutt}>Sign Up</button>
