@@ -9,8 +9,8 @@ export default NextAuth({
       clientSecret: process.env.GITHUB_SECRET,
     }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
       authorization: {
         params: {
           prompt: "consent",
@@ -31,11 +31,6 @@ export default NextAuth({
       }
       return token;
     },
-    redirect: async (url, baseUrl) => {
-      if (url === '/dashboard') {
-       return Promise.resolve( '/dashboard')
-      } 
-      return Promise.resolve('/dashboard')
-    }
+   
   }
 });
