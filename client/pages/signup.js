@@ -55,7 +55,7 @@ const Signup = () => {
       <div className={styles.LeftContainer}>
         <div className={styles.con}>
       <div className={styles.log}>
-     Create a account
+     Create an account
       </div>
       <p className={styles.para2}>Signup using Social Networks</p>
       <div>
@@ -70,7 +70,7 @@ const Signup = () => {
       <form className={styles.formContainer} onSubmit={onSubmitForm}>
         <div>
           <input type="text" 
-          placeholder="username"
+          placeholder="Username"
           name="username"
           value={username}
           onChange={e => onChange(e)}
@@ -79,7 +79,7 @@ const Signup = () => {
         <div>
           <input type="password" 
           name="password"
-          placeholder="password" 
+          placeholder="Password" 
           onChange={e => onChange(e)}
           value={password}
           className={styles.input}/>
@@ -87,7 +87,7 @@ const Signup = () => {
         <div>
           <input type="password"
           name="comfirmpassword"
-           placeholder="comfirmpassword"
+           placeholder="Confirm Password"
            onChange={e => onChange(e)}
            value={comfirmpassword}
            className={styles.input}/>
@@ -101,7 +101,7 @@ const Signup = () => {
       <div className={styles.RightContainer}>
         <div className={styles.con}>
         <div className={styles.new}>
-        Already have a account
+        Already have an account
         </div>
         <p className={styles.para}>
      Come back to your friends
