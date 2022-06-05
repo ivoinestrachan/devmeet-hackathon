@@ -1,11 +1,16 @@
-import React,{useState} from 'react';
+import React,{useState, useCallback} from 'react';
 import styles from "../styles/onboard.module.css"
 import Skills from "../components/Skills";
 import About from "../components/About";
 import Socials from "../components/Socials";
+import LoadingOverlay from 'react-loading-overlay';
 
 
 const Onboard = () => {
+  const [isActive, setActive] = useState(false)
+  const handleButtonClicked = useCallback(() => {
+    setActive(value => !value)
+  }, [])
 
   const [page, setPage] = useState(0);
   const [formData, setFormData] = useState({
@@ -36,6 +41,18 @@ const Onboard = () => {
     }
   }
   return (
+    <LoadingOverlay
+    active={isActive}
+    styles={{
+      overlay: (base) => ({
+        ...base,
+        background: 'black',
+        paddingTop: '70px'
+      })
+    }}
+    spinner
+    text='Loading your content . . .'
+  >
     <div className={styles.container}>
      <div className={styles.progressbar}>
        <div style={{width: page === 0 ? "25%" : page === 1 ? "50%" : "100%"}}>
@@ -64,7 +81,7 @@ const Onboard = () => {
       onClick={() => 
       {
         if (page === FormTitles.length - 1) {
-          alert("Form Submitted");
+          {handleButtonClicked}
           console.log(formData);
         
         }else{
@@ -76,6 +93,7 @@ const Onboard = () => {
     </div>
      </div>
     </div>
+    </LoadingOverlay>
   );
 }
 
