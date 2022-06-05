@@ -6,46 +6,35 @@ const validInfo = require('../middleware/validinfo.js');
 const auth = require('../middleware/auth.js');
 
 
-//signup
-router.post('/signup',validInfo, async(req, res) => {
+// signup
+router.post('/signup', validInfo, async(req, res) => {
     try{
-     const {username, password, comfirmpassword} = req.body;
-    const user = await pool.query("SELECT * FROM users WHERE user_name = $1", [
-      username
-    ]);
-          console.log(user.rows) 
-   
+     const {username, password} = req.body;
+     const user = await pool.query("SELECT * FROM users WHERE user_name = $1", [username]);
 
-    if(user.rows.length !== 0) {
+    if (user.rows.length > 0) {
       return res.status(401).send("User already exists");
-    
-  }
-
-
-  const saltRound = 10;
-  const salt = await bcrypt.genSalt(saltRound);
-  const bcryptPassword = await bcrypt.hash(password, salt);
-
-  const bcryptComfirmpassword = await bcrypt.hash(comfirmpassword, salt);
-
-  const  newUser = await pool.query("INSERT INTO users (user_name, user_password, user_comfirmpassword) VALUES ($1, $2, $3) RETURNING *", [ 
-    username,
-    bcryptPassword,
-    bcryptComfirmpassword
-  ]);
-
-  const token = jwtGenerator(newUser.rows[0].user_id);
-  res.json({token});
-
-
-    }catch(err){
-         console.error(err.message);
-   res.status(500).send("Server Error");
-
     }
-     });    
+
+    const saltRound = 10;
+    const salt = await bcrypt.genSalt(saltRound);
+    const bcryptPassword = await bcrypt.hash(password, salt);
+
+    const crUser = await pool.query("INSERT INTO users (user_name, user_password) VALUES ($1, $2) RETURNING *", [ 
+       username,
+       bcryptPassword,
+    ]); 
+
+    const token = jwtGenerator(crUser.rows[0].user_id);
+
+    res.json({token});
+
+  } catch(err) {
+        res.status(500).send("Server Error");
+    }
+  });    
     
-//login 
+// login 
 router.post('/login',validInfo, async(req, res) => {
 try{
   const {username, password} = req.body;
@@ -67,7 +56,8 @@ try{
 
     const token = jwtGenerator(user.rows[0].user_id);
     res.json({token});
-}catch(err){
+
+} catch(err){
   console.error(err.message);
   res.status(500).send("Server Error");
 }

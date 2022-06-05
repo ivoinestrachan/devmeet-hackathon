@@ -11,7 +11,7 @@ CREATE TABLE users(
 );
 
 -- test user --
-INSERT INTO users(user_name, user_password, user_comfirmpassword) VALUES ('jacob', 'jacob1234', 'jacob21234');
+INSERT INTO users(user_name, user_password, user_comfirmpassword) VALUES ('jacob', 'acob1234'j, 'jacob21234');
 
 
 CREATE TABLE userData(
