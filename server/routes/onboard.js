@@ -40,3 +40,4 @@ route.post('/onboard',auth,validInfo, async(req,res) => {
         res.status(500).send("server error please try again later");
     }
 })
+module.exports = route;
