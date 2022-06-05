@@ -4,6 +4,7 @@ import Skills from "../components/Skills";
 import About from "../components/About";
 import Socials from "../components/Socials";
 
+
 const Onboard = () => {
 
   const [page, setPage] = useState(0);

@@ -42,7 +42,7 @@ const Signup = () => {
       
       //signIn('username', {username, callbackUrl: 'http://localhost:1348/auth/signup'})
 
-      Router.push("/dashboard");
+      Router.push("/onboard");
 
     } catch (error) {
       console.error(error.message)
@@ -51,7 +51,7 @@ const Signup = () => {
   const { data: session } = useSession()
 
   if (session) {
-    Router.push('/dashboard');
+    Router.push('/onboard');
     return <></>;
   }
 
