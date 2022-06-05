@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import Router from 'next/router'
 import Link from 'next/link';
 import { useSession, signIn, } from "next-auth/react";
 import styles from "../styles/login.module.css"
@@ -10,48 +10,60 @@ const Signup = () => {
   const [inputs, setInputs] = useState({
     username: "",
     password: "",
-    comfirmpassword:"", 
+    confirmPassword:"", 
   });
-  const {username, password, comfirmpassword} = inputs;
 
-  const onChange = (e) =>{
-    setInputs({...inputs, [e.target.name]
-    : e.target.value })
-    
+  const {username, password, confirmPassword} = inputs;
+
+  const onChange = (e) => {
+    setInputs(prev => {
+      return {...prev, [e.target.name]: e.target.value};
+    })
   }
 
-  const onSubmitForm = async(e) => {
+  const onSubmitForm = async (e) => {
     e.preventDefault()
 
-    try {
+    if (password !== confirmPassword) {
+      return;
+    }
 
-      const body = {username, password, comfirmpassword}
+    try {
+      const body = {username, password}
       const response = await fetch("http://localhost:1348/auth/signup", {
         method: "POST",
-        headers: {"Content-Type": "application/json"}
-        ,
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(body)
       });
 
       const parseRes = await response.json()
 
       localStorage.setItem("token", parseRes.token);
+      
+      //signIn('username', {username, callbackUrl: 'http://localhost:1348/auth/signup'})
 
-     router.push("/dashboard");
+      Router.push("/dashboard");
 
     } catch (error) {
       console.error(error.message)
     }
   }
   const { data: session } = useSession()
-  const router = useRouter();
 
   if (session) {
-    router.push('/dashboard');
+    Router.push('/dashboard');
+    return <></>;
   }
 
   return (
     <div className={styles.container}>
+        <div className={styles.logo}>
+          <div  className={styles.logo}>
+      <Link href="/">
+     DevMeet
+    </Link>
+    </div>
+      </div>
       <div className={styles.LeftContainer}>
         <div className={styles.con}>
       <div className={styles.log}>
@@ -59,13 +71,7 @@ const Signup = () => {
       </div>
       <p className={styles.para2}>Signup using Social Networks</p>
       <div>
-      <button className={styles.button1} onClick={() => {
-          const isSuccess = signIn();
-          if (isSuccess) {
-            router.push("/dashboard");
-          }
-        }
-      }>Signup with github or google</button>
+      <button className={styles.button1} onClick={() => signIn()}>Signup with github or google</button>
       </div>
       <form className={styles.formContainer} onSubmit={onSubmitForm}>
         <div>
@@ -86,10 +92,10 @@ const Signup = () => {
         </div>
         <div>
           <input type="password"
-          name="comfirmpassword"
+          name="confirmPassword"
            placeholder="Confirm Password"
            onChange={e => onChange(e)}
-           value={comfirmpassword}
+           value={confirmPassword}
            className={styles.input}/>
         </div>
         <div className={styles.butt}>
