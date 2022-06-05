@@ -26,7 +26,7 @@ const Signup = () => {
     try {
 
       const body = {username, password, comfirmpassword}
-      const response = await fetch("http://localhost:1338/auth/signup", {
+      const response = await fetch("http://localhost:1348/auth/signup", {
         method: "POST",
         headers: {"Content-Type": "application/json"}
         ,
@@ -35,7 +35,10 @@ const Signup = () => {
 
       const parseRes = await response.json()
 
-      console.log(parseRes)
+      localStorage.setItem("token", parseRes.token);
+
+     router.push("/dashboard");
+
     } catch (error) {
       console.error(error.message)
     }

@@ -95,6 +95,22 @@ font-size: 24px;
 font-weight: 200px;
 }
 
-.button1{
+ .button1{
   cursor: pointer;
+  border-radius: 5px;
+  color: #494949 !important;
+  text-transform: uppercase;
+  background: #ffffff;
+  padding: 10px;
+  border: 3.5px solid #494949 !important;
 }
+
+.button1:hover {
+  text-decoration: none;
+  color: #ffffff !important;
+  background: #f6b93b;
+  border-color: #f6b93b !important;
+  transition: transform 550ms;
+} 
+
+
